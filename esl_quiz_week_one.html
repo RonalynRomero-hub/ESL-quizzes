@@ -25,7 +25,7 @@
 
     h1, h2 {
         margin-bottom: 15px;
-        color: #f5e349; /* updated highlight */
+        color: #f5e349; /* pale yellow highlight */
         text-shadow: 1px 1px #000;
     }
 
@@ -36,16 +36,16 @@
     }
 
     button {
-        background: #f5e349; /* updated highlight */
+        background: #f5e349;
         border: none;
-        padding: 15px 25px;
-        margin: 10px;
+        padding: 12px 20px;
+        margin: 5px;
         font-size: 16px;
         font-weight: bold;
         border-radius: 12px;
         cursor: pointer;
         transition: transform 0.2s;
-        color: #040405; /* dark text for contrast */
+        color: #040405;
     }
 
     button:hover {
@@ -89,19 +89,10 @@
         100% { transform: translate(0, 200px) rotate(360deg);}
     }
 
-    input {
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        margin: 5px 0;
-        width: 80%;
-    }
-
     .vocab {
         margin: 15px 0;
         font-weight: bold;
-        color: #f5e349; /* updated highlight */
+        color: #f5e349; /* pale yellow */
     }
 </style>
 </head>
@@ -109,4 +100,135 @@
 
 <div class="container">
     <h1>Tom's School Adventure</h1>
-    <p id="story">Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p
+    <p id="story">Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p>
+
+    <div id="quiz">
+        <h2>Multiple Choice Questions</h2>
+        <div id="mcq">
+            <p>1. Who is Tom?</p>
+            <button onclick="checkAnswer(this, 'correct')">A new student</button>
+            <button onclick="checkAnswer(this, 'wrong')">His teacher</button>
+            <button onclick="checkAnswer(this, 'wrong')">His friend</button>
+
+            <p>2. What does Tom do?</p>
+            <button onclick="checkAnswer(this, 'correct')">Greets his classmates</button>
+            <button onclick="checkAnswer(this, 'wrong')">Runs away</button>
+            <button onclick="checkAnswer(this, 'wrong')">Sleeps in class</button>
+
+            <p>3. Why does Tom feel happy?</p>
+            <button onclick="checkAnswer(this, 'correct')">Because everyone is kind</button>
+            <button onclick="checkAnswer(this, 'wrong')">Because he is alone</button>
+            <button onclick="checkAnswer(this, 'wrong')">Because school is closed</button>
+
+            <p>4. What does he notice?</p>
+            <button onclick="checkAnswer(this, 'correct')">Some students offering to help him</button>
+            <button onclick="checkAnswer(this, 'wrong')">No one notices him</button>
+            <button onclick="checkAnswer(this, 'wrong')">Teachers ignoring him</button>
+
+            <p>5. What does he think about making friends?</p>
+            <button onclick="checkAnswer(this, 'correct')">It might be easier than expected</button>
+            <button onclick="checkAnswer(this, 'wrong')">It will be impossible</button>
+            <button onclick="checkAnswer(this, 'wrong')">He doesn't care</button>
+
+            <p>6. How does he feel about making friends in class?</p>
+            <button onclick="checkAnswer(this, 'correct')">Relieved</button>
+            <button onclick="checkAnswer(this, 'wrong')">Angry</button>
+            <button onclick="checkAnswer(this, 'wrong')">Sad</button>
+
+            <p>7. What does Tom look forward to?</p>
+            <button onclick="checkAnswer(this, 'correct')">Joining class activities and meeting more classmates</button>
+            <button onclick="checkAnswer(this, 'wrong')">Going home</button>
+            <button onclick="checkAnswer(this, 'wrong')">Eating lunch alone</button>
+        </div>
+
+        <h2>Fill in the Blanks</h2>
+
+        <p>1. ___ to meet you!</p>
+        <button onclick="checkFillOption(this, 'correct', 'Nice')">Nice</button>
+        <button onclick="checkFillOption(this, 'wrong', 'Hello')">Hello</button>
+        <button onclick="checkFillOption(this, 'wrong', 'Good')">Good</button>
+
+        <p>2. Everyone ___ friendly at school.</p>
+        <button onclick="checkFillOption(this, 'correct', 'are')">are</button>
+        <button onclick="checkFillOption(this, 'wrong', 'is')">is</button>
+        <button onclick="checkFillOption(this, 'wrong', 'was')">was</button>
+
+        <p>3. How ___ you doing today?</p>
+        <button onclick="checkFillOption(this, 'correct', 'are')">are</button>
+        <button onclick="checkFillOption(this, 'wrong', 'is')">is</button>
+        <button onclick="checkFillOption(this, 'wrong', 'do')">do</button>
+
+        <p>4. Hello, my ___ is Tom.</p>
+        <button onclick="checkFillOption(this, 'correct', 'name')">name</button>
+        <button onclick="checkFillOption(this, 'wrong', 'friend')">friend</button>
+        <button onclick="checkFillOption(this, 'wrong', 'teacher')">teacher</button>
+
+        <p>5. I am looking ___ seeing you tomorrow!</p>
+        <button onclick="checkFillOption(this, 'correct', 'forward')">forward</button>
+        <button onclick="checkFillOption(this, 'wrong', 'backward')">backward</button>
+        <button onclick="checkFillOption(this, 'wrong', 'around')">around</button>
+
+        <h2>Vocabulary</h2>
+        <p class="vocab">greet, kind, notice, joining</p>
+        <p class="vocab">How are you doing?, My name is..., I am 12 years old., I live in Sydney.</p>
+
+        <div id="score" class="score hidden"></div>
+    </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+let score = 0;
+
+// Multiple choice answers
+function checkAnswer(button, result) {
+    if(result === 'correct') {
+        score += 10;
+        button.style.background = '#00ff00'; // green for correct
+    } else {
+        button.style.background = '#ff0000'; // red for wrong
+    }
+    button.disabled = true;
+    checkScore();
+}
+
+// Fill-in-the-blanks options
+function checkFillOption(button, result, value) {
+    if(result === 'correct') {
+        score += 10;
+        button.style.background = '#00ff00';
+    } else {
+        button.style.background = '#ff0000';
+    }
+    button.disabled = true;
+    checkScore();
+}
+
+// Score display and confetti
+function checkScore() {
+    const scoreEl = document.getElementById('score');
+    scoreEl.textContent = `Score: ${score}`;
+    scoreEl.classList.remove('hidden');
+    if(score >= 100) { // maximum score reached
+        launchConfetti();
+    }
+}
+
+// Confetti scattered
+function launchConfetti() {
+    const confettiContainer = document.getElementById('confetti');
+    for(let i=0;i<100;i++){
+        let piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random()*100 + 'vw';
+        piece.style.top = Math.random()*100 + 'vh';
+        piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
+        confettiContainer.appendChild(piece);
+    }
+    setTimeout(()=>{confettiContainer.innerHTML='';},3000);
+}
+</script>
+
+</body>
+</html>
