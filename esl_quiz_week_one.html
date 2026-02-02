@@ -8,7 +8,7 @@
     body {
         margin: 0;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        background: linear-gradient(135deg, #7ab4ff, #040405); /* light blue to dark */
+        background: linear-gradient(135deg, #7ab4ff, #040405);
         color: #fff;
         overflow-x: hidden;
     }
@@ -36,7 +36,7 @@
     }
 
     button {
-        background: #fff9c4; /* pale yellow */
+        background: #fff9c4;
         border: none;
         padding: 15px 25px;
         margin: 10px;
@@ -45,7 +45,7 @@
         border-radius: 12px;
         cursor: pointer;
         transition: transform 0.2s;
-        color: #040405; /* dark text for contrast */
+        color: #040405;
     }
 
     button:hover {
@@ -78,12 +78,15 @@
         width: 10px;
         height: 10px;
         background-color: #fff;
-        animation: fall 3s linear infinite;
+        animation: scatter 3s linear infinite;
     }
 
-    @keyframes fall {
-        0% { transform: translateY(-10px) rotate(0deg); }
-        100% { transform: translateY(100vh) rotate(360deg); }
+    @keyframes scatter {
+        0% { transform: translate(0,0) rotate(0deg);}
+        25% { transform: translate(50px, 50px) rotate(90deg);}
+        50% { transform: translate(-50px, 100px) rotate(180deg);}
+        75% { transform: translate(50px, 150px) rotate(270deg);}
+        100% { transform: translate(0, 200px) rotate(360deg);}
     }
 
     input {
@@ -98,7 +101,7 @@
     .vocab {
         margin: 15px 0;
         font-weight: bold;
-        color: #fff9c4; /* pale yellow */
+        color: #fff9c4;
     }
 </style>
 </head>
@@ -108,7 +111,7 @@
     <h1>Tom's School Adventure</h1>
     <p id="story">Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p>
 
-    <div id="quiz" class="hidden">
+    <div id="quiz">
         <h2>Multiple Choice Questions</h2>
         <div id="mcq">
             <p>1. Who is Tom?</p>
@@ -147,26 +150,20 @@
             <button onclick="checkAnswer(this, 'wrong')">Eating lunch alone</button>
         </div>
 
-        <div id="fill" class="hidden">
-            <h2>Fill in the Blanks</h2>
-            <p><input type="text" placeholder="Answer" id="blank1"> to meet you!</p>
-            <p>Everyone <input type="text" placeholder="Answer" id="blank2"> friendly at school.</p>
-            <p>How <input type="text" placeholder="Answer" id="blank3"> you doing today?</p>
-            <p>Hello, my <input type="text" placeholder="Answer" id="blank4"> is Tom.</p>
-            <p>I am looking <input type="text" placeholder="Answer" id="blank5"> seeing you tomorrow!</p>
-            <button onclick="checkFillBlanks()">Submit</button>
-        </div>
+        <h2>Fill in the Blanks</h2>
+        <p><input type="text" placeholder="Answer" id="blank1"> to meet you!</p>
+        <p>Everyone <input type="text" placeholder="Answer" id="blank2"> friendly at school.</p>
+        <p>How <input type="text" placeholder="Answer" id="blank3"> you doing today?</p>
+        <p>Hello, my <input type="text" placeholder="Answer" id="blank4"> is Tom.</p>
+        <p>I am looking <input type="text" placeholder="Answer" id="blank5"> seeing you tomorrow!</p>
+        <button onclick="checkFillBlanks()">Submit</button>
 
-        <div id="vocab" class="hidden">
-            <h2>Vocabulary</h2>
-            <p class="vocab">greet, kind, notice, joining</p>
-            <p class="vocab">How are you doing?, My name is..., I am 12 years old., I live in Sydney.</p>
-        </div>
+        <h2>Vocabulary</h2>
+        <p class="vocab">greet, kind, notice, joining</p>
+        <p class="vocab">How are you doing?, My name is..., I am 12 years old., I live in Sydney.</p>
 
         <div id="score" class="score hidden"></div>
     </div>
-
-    <button id="startQuiz" onclick="startQuiz()">Start Quiz 🎮</button>
 </div>
 
 <div class="confetti" id="confetti"></div>
@@ -174,63 +171,4 @@
 <script>
 let score = 0;
 
-function startQuiz() {
-    document.getElementById('quiz').classList.remove('hidden');
-    document.getElementById('startQuiz').classList.add('hidden');
-}
-
-function checkAnswer(button, result) {
-    if(result === 'correct') {
-        score += 10;
-        button.style.background = '#00ff00';
-    } else {
-        button.style.background = '#ff6666';
-    }
-    button.disabled = true;
-    checkScore();
-}
-
-function checkScore() {
-    const scoreEl = document.getElementById('score');
-    scoreEl.textContent = `Score: ${score}`;
-    scoreEl.classList.remove('hidden');
-    if(score === 70) {
-        launchConfetti();
-    }
-}
-
-function launchConfetti() {
-    const confettiContainer = document.getElementById('confetti');
-    for(let i=0;i<100;i++){
-        let piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = Math.random()*100 + 'vw';
-        piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
-        confettiContainer.appendChild(piece);
-    }
-    setTimeout(()=>{confettiContainer.innerHTML='';},3000);
-}
-
-function checkFillBlanks() {
-    const answers = ['Nice','are','are','name','forward'];
-    let userAnswers = [
-        document.getElementById('blank1').value.trim(),
-        document.getElementById('blank2').value.trim(),
-        document.getElementById('blank3').value.trim(),
-        document.getElementById('blank4').value.trim(),
-        document.getElementById('blank5').value.trim()
-    ];
-    let fillScore = 0;
-    for(let i=0;i<answers.length;i++){
-        if(userAnswers[i].toLowerCase() === answers[i].toLowerCase()){
-            fillScore += 10;
-        }
-    }
-    score += fillScore;
-    checkScore();
-    alert(`You scored ${fillScore}/50 on fill in the blanks!`);
-}
-</script>
-
-</body>
-</html>
+function checkAnswer(button,
