@@ -20,7 +20,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
-h1, h2 {
+h1 {
     color: #f5e349;
     text-shadow: 1px 1px #000;
 }
@@ -68,30 +68,30 @@ button:disabled { cursor: default; opacity: 0.7; }
 <div class="confetti" id="confetti"></div>
 
 <script>
-// Questions array
+// All questions combined
 const questions = [
-    {type:'mcq', question:'Who is Tom?', options:['A new student','His teacher','His friend'], answer:0, explanation:'Tom is a new student in school.'},
-    {type:'mcq', question:'What does Tom do?', options:['Greets his classmates','Runs away','Sleeps in class'], answer:0, explanation:'He greets his classmates warmly.'},
-    {type:'mcq', question:'Why does Tom feel happy?', options:['Because everyone is kind','Because he is alone','Because school is closed'], answer:0, explanation:'Everyone responds kindly to him.'},
-    {type:'mcq', question:'What does he notice?', options:['Some students offering to help him','No one notices him','Teachers ignoring him'], answer:0, explanation:'He notices some students offering help.'},
-    {type:'mcq', question:'What does he think about making friends?', options:['It might be easier than expected','It will be impossible','He doesn\'t care'], answer:0, explanation:'He thinks making friends might be easier than expected.'},
-    {type:'mcq', question:'How does he feel about making friends in class?', options:['Relieved','Angry','Sad'], answer:0, explanation:'He feels relieved about making friends.'},
-    {type:'mcq', question:'What does Tom look forward to?', options:['Joining class activities and meeting more classmates','Going home','Eating lunch alone'], answer:0, explanation:'He looks forward to joining class activities and meeting more classmates.'},
+    {question:'Who is Tom?', options:['A new student','His teacher','His friend'], answer:0, explanation:'Tom is a new student in school.'},
+    {question:'What does Tom do?', options:['Greets his classmates','Runs away','Sleeps in class'], answer:0, explanation:'He greets his classmates warmly.'},
+    {question:'Why does Tom feel happy?', options:['Because everyone is kind','Because he is alone','Because school is closed'], answer:0, explanation:'Everyone responds kindly to him.'},
+    {question:'What does he notice?', options:['Some students offering to help him','No one notices him','Teachers ignoring him'], answer:0, explanation:'He notices some students offering help.'},
+    {question:'What does he think about making friends?', options:['It might be easier than expected','It will be impossible','He doesn\'t care'], answer:0, explanation:'He thinks making friends might be easier than expected.'},
+    {question:'How does he feel about making friends in class?', options:['Relieved','Angry','Sad'], answer:0, explanation:'He feels relieved about making friends.'},
+    {question:'What does Tom look forward to?', options:['Joining class activities and meeting more classmates','Going home','Eating lunch alone'], answer:0, explanation:'He looks forward to joining class activities and meeting more classmates.'},
 
-    {type:'fill', question:'___ to meet you!', options:['Nice','Hello','Good'], answer:0, explanation:'The correct phrase is "Nice to meet you!"'},
-    {type:'fill', question:'Everyone ___ friendly at school.', options:['are','is','was'], answer:0, explanation:'Everyone "are" friendly.'},
-    {type:'fill', question:'How ___ you doing today?', options:['are','is','do'], answer:0, explanation:'The correct form is "How are you doing today?"'},
-    {type:'fill', question:'Hello, my ___ is Tom.', options:['name','friend','teacher'], answer:0, explanation:'The correct answer is "name".'},
-    {type:'fill', question:'I am looking ___ seeing you tomorrow!', options:['forward','backward','around'], answer:0, explanation:'The correct phrase is "looking forward to seeing you".'},
+    {question:'___ to meet you!', options:['Nice','Hello','Good'], answer:0, explanation:'The correct phrase is "Nice to meet you!"'},
+    {question:'Everyone ___ friendly at school.', options:['are','is','was'], answer:0, explanation:'Everyone "are" friendly.'},
+    {question:'How ___ you doing today?', options:['are','is','do'], answer:0, explanation:'The correct form is "How are you doing today?"'},
+    {question:'Hello, my ___ is Tom.', options:['name','friend','teacher'], answer:0, explanation:'The correct answer is "name".'},
+    {question:'I am looking ___ seeing you tomorrow!', options:['forward','backward','around'], answer:0, explanation:'The correct phrase is "looking forward to seeing you".'},
 
-    {type:'vocab', question:'greet', options:['say hello','ignore','run away'], answer:0, explanation:'To "greet" means to say hello.'},
-    {type:'vocab', question:'kind', options:['friendly','mean','angry'], answer:0, explanation:'Kind means friendly.'},
-    {type:'vocab', question:'notice', options:['see or observe','ignore','hide'], answer:0, explanation:'To notice something means to see or observe it.'},
-    {type:'vocab', question:'joining', options:['participating','leaving','ignoring'], answer:0, explanation:'Joining means participating.'},
-    {type:'vocab', question:'How are you doing?', options:['asking how someone is','saying goodbye','telling a story'], answer:0, explanation:'This phrase is used for asking how someone is.'},
-    {type:'vocab', question:'My name is Tom', options:['introducing yourself','asking questions','ignoring people'], answer:0, explanation:'It is used to introduce yourself.'},
-    {type:'vocab', question:'I am 12 years old', options:['telling your age','telling your name','asking someone their age'], answer:0, explanation:'It tells your age.'},
-    {type:'vocab', question:'I live in Sydney', options:['telling where you live','telling your age','asking someone where they live'], answer:0, explanation:'It tells where you live.'},
+    {question:'greet', options:['say hello','ignore','run away'], answer:0, explanation:'To "greet" means to say hello.'},
+    {question:'kind', options:['friendly','mean','angry'], answer:0, explanation:'Kind means friendly.'},
+    {question:'notice', options:['see or observe','ignore','hide'], answer:0, explanation:'To notice something means to see or observe it.'},
+    {question:'joining', options:['participating','leaving','ignoring'], answer:0, explanation:'Joining means participating.'},
+    {question:'How are you doing?', options:['asking how someone is','saying goodbye','telling a story'], answer:0, explanation:'This phrase is used for asking how someone is.'},
+    {question:'My name is Tom', options:['introducing yourself','asking questions','ignoring people'], answer:0, explanation:'It is used to introduce yourself.'},
+    {question:'I am 12 years old', options:['telling your age','telling your name','asking someone their age'], answer:0, explanation:'It tells your age.'},
+    {question:'I live in Sydney', options:['telling where you live','telling your age','asking someone where they live'], answer:0, explanation:'It tells where you live.'},
 ];
 
 let score = 0;
@@ -101,8 +101,7 @@ function renderQuiz() {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
     questions.forEach((q, index) => {
-        let html = `<h2>${q.type === 'mcq' ? 'Multiple Choice' : q.type==='fill' ? 'Fill in the Blank' : 'Vocabulary'} Question</h2>`;
-        html += `<p>${index+1}. ${q.question}</p>`;
+        let html = `<p>${index+1}. ${q.question}</p>`;
         q.options.forEach((opt,i)=>{
             html += `<button onclick="checkAnswer(${index},${i},this)">${opt}</button>`;
         });
@@ -122,7 +121,7 @@ function checkAnswer(qIndex,optIndex,btn){
         btn.style.background = '#00ff00';
         score += 10;
         updateScore();
-        checkAllCorrect();
+        if(score >= questions.length*10) launchConfetti();
     }else{
         btn.style.background = '#ff0000';
         document.getElementById(`explanation-${qIndex}`).innerText = q.explanation;
@@ -134,19 +133,6 @@ function updateScore(){
     const scoreEl = document.getElementById('score');
     scoreEl.textContent = `Score: ${score}`;
     scoreEl.classList.remove('hidden');
-}
-
-// Check if all answers correct
-function checkAllCorrect(){
-    const allButtons = document.querySelectorAll('#quiz button');
-    let allAnsweredCorrectly = true;
-    questions.forEach((q,index)=>{
-        const buttons = document.querySelectorAll(`#quiz button`)[index*3] // simplified
-        // we'll just rely on score for confetti
-    });
-    if(score >= questions.length*10){
-        launchConfetti();
-    }
 }
 
 // Confetti
