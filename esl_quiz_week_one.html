@@ -2,210 +2,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SpeakQuest ESL – Week 1</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tom's School Adventure</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(#cce7ff, #ffffff);
-  text-align: center;
-  padding: 20px;
-}
+    body {
+        margin: 0;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background: #6a0dad url('https://i.ibb.co/6r3rV7T/books-paperplane.png') repeat; /* books and paper plane design */
+        color: #fff;
+        overflow-x: hidden;
+    }
 
-.container {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  max-width: 700px;
-  margin: auto;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-}
+    .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        background: rgba(0,0,0,0.3);
+        border-radius: 20px;
+        box-shadow: 0 0 20px #000;
+    }
 
-button {
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
+    h1, h2 {
+        margin-bottom: 15px;
+        color: #fff;
+        text-shadow: 2px 2px #000;
+    }
 
-.correct {
-  background-color: #7CFC98;
-}
+    p {
+        font-size: 18px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
 
-.wrong {
-  background-color: #FF7C7C;
-}
+    button {
+        background: #ffcc00;
+        border: none;
+        padding: 15px 25px;
+        margin: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
 
-#stars, #score {
-  font-size: 20px;
-  margin: 10px;
-}
+    button:hover {
+        transform: scale(1.1);
+    }
 
-.reason {
-  color: #555;
-  margin-top: 5px;
-}
+    .hidden { display: none; }
+
+    .score {
+        font-size: 24px;
+        margin: 20px 0;
+        font-weight: bold;
+        color: #ffea00;
+        text-shadow: 2px 2px #000;
+    }
+
+    .confetti {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 9999;
+    }
+
+    .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #fff;
+        animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(-10px) rotate(0deg); }
+        100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    input {
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .vocab {
+        margin: 15px 0;
+        font-weight: bold;
+    }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-<h1>🌟 SpeakQuest ESL</h1>
-<h2>Week 1: Greetings & Introductions</h2>
+    <h1>Tom's School Adventure</h1>
+    <p id="story">Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p>
+    <button onclick="playAudio()">🔊 Listen to Story</button>
 
-<p><b>Story Summary:</b><br>
-Tom is a new student at school. He smiles and says hello to his classmates.
-Tom tells them his name and asks how they are. He feels happy because everyone is friendly.
-</p>
+    <div id="quiz" class="hidden">
+        <h2>Multiple Choice Questions</h2>
+        <div id="mcq">
+            <p>1. Who is Tom?</p>
+            <button onclick="checkAnswer(this, 'correct')">A new student</button>
+            <button onclick="checkAnswer(this, 'wrong')">His teacher</button>
+            <button onclick="checkAnswer(this, 'wrong')">His friend</button>
 
-<div id="stars">⭐ Stars: 0</div>
-<div id="score">Score: 0</div>
+            <p>2. What does Tom do?</p>
+            <button onclick="checkAnswer(this, 'correct')">Greets his classmates</button>
+            <button onclick="checkAnswer(this, 'wrong')">Runs away</button>
+            <button onclick="checkAnswer(this, 'wrong')">Sleeps in class</button>
 
-<hr>
+            <p>3. Why does Tom feel happy?</p>
+            <button onclick="checkAnswer(this, 'correct')">Because everyone is kind</button>
+            <button onclick="checkAnswer(this, 'wrong')">Because he is alone</button>
+            <button onclick="checkAnswer(this, 'wrong')">Because school is closed</button>
 
-<h3>📝 Multiple Choice (7 Questions)</h3>
-<div id="quiz"></div>
+            <p>4. What does he notice?</p>
+            <button onclick="checkAnswer(this, 'correct')">Some students offering to help him</button>
+            <button onclick="checkAnswer(this, 'wrong')">No one notices him</button>
+            <button onclick="checkAnswer(this, 'wrong')">Teachers ignoring him</button>
 
-<hr>
+            <p>5. What does he think about making friends?</p>
+            <button onclick="checkAnswer(this, 'correct')">It might be easier than expected</button>
+            <button onclick="checkAnswer(this, 'wrong')">It will be impossible</button>
+            <button onclick="checkAnswer(this, 'wrong')">He doesn't care</button>
 
-<h3>✏️ Fill in the Blanks (5 Questions)</h3>
-<div id="fill"></div>
+            <p>6. How does he feel about making friends in class?</p>
+            <button onclick="checkAnswer(this, 'correct')">Relieved</button>
+            <button onclick="checkAnswer(this, 'wrong')">Angry</button>
+            <button onclick="checkAnswer(this, 'wrong')">Sad</button>
 
-<hr>
+            <p>7. What does Tom look forward to?</p>
+            <button onclick="checkAnswer(this, 'correct')">Joining class activities and meeting more classmates</button>
+            <button onclick="checkAnswer(this, 'wrong')">Going home</button>
+            <button onclick="checkAnswer(this, 'wrong')">Eating lunch alone</button>
+        </div>
 
-<h3>📖 Vocabulary</h3>
-<div id="vocab"></div>
+        <div id="fill" class="hidden">
+            <h2>Fill in the Blanks</h2>
+            <p><input type="text" placeholder="Answer" id="blank1"> to meet you!</p>
+            <p>Everyone <input type="text" placeholder="Answer" id="blank2"> friendly at school.</p>
+            <p>How <input type="text" placeholder="Answer" id="blank3"> you doing today?</p>
+            <p>Hello, my <input type="text" placeholder="Answer" id="blank4"> is Tom.</p>
+            <p>I am looking <input type="text" placeholder="Answer" id="blank5"> seeing you tomorrow!</p>
+            <button onclick="checkFillBlanks()">Submit</button>
+        </div>
 
-<hr>
+        <div id="vocab" class="hidden">
+            <h2>Vocabulary</h2>
+            <p class="vocab">greet, kind, notice, joining</p>
+            <p class="vocab">How are you doing?, My name is..., I am 12 years old., I live in Sydney.</p>
+        </div>
 
-<button onclick="showResult()">🎉 Finish Game</button>
+        <div id="score" class="score hidden"></div>
+    </div>
+
+    <button id="startQuiz" onclick="startQuiz()">Start Quiz 🎮</button>
 </div>
+
+<div class="confetti" id="confetti"></div>
+
+<audio id="audioStory" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
 <script>
 let score = 0;
-let stars = 0;
 
-function updateScore() {
-  document.getElementById("score").innerText = "Score: " + score;
-  document.getElementById("stars").innerText = "⭐ Stars: " + stars;
+function playAudio() {
+    const audio = document.getElementById('audioStory');
+    audio.play();
 }
 
-function playAudio(word) {
-  const audio = new Audio("audio/" + word + ".mp3");
-  audio.play();
+function startQuiz() {
+    document.getElementById('quiz').classList.remove('hidden');
+    document.getElementById('startQuiz').classList.add('hidden');
 }
 
-// MULTIPLE CHOICE
-const quizData = [
-  {q:"What does Tom say first?", a:"Hello", o:["Bye","Hello","Thanks"], r:"Tom greets his friends politely."},
-  {q:"Who is Tom?", a:"A new student", o:["A teacher","A new student","A doctor"], r:"The story says Tom is new at school."},
-  {q:"What does Tom tell?", a:"His name", o:["His age","His name","His food"], r:"Tom introduces himself."},
-  {q:"What does Tom ask?", a:"How are you?", o:["Where are you?","How are you?","What is this?"], r:"He asks about feelings."},
-  {q:"How does Tom feel?", a:"Happy", o:["Sad","Angry","Happy"], r:"Everyone is friendly to him."},
-  {q:"Where is Tom?", a:"School", o:["Park","Home","School"], r:"The story happens at school."},
-  {q:"Are his classmates friendly?", a:"Yes", o:["No","Yes","Maybe"], r:"They respond kindly."}
-];
+function checkAnswer(button, result) {
+    if(result === 'correct') {
+        score += 10;
+        button.style.background = '#00ff00';
+    } else {
+        button.style.background = '#ff0000';
+    }
+    button.disabled = true;
+    checkScore();
+}
 
-quizData.forEach((item, i) => {
-  const div = document.createElement("div");
-  div.innerHTML = `<p>${item.q}</p>`;
-  item.o.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.innerText = opt;
-    btn.onclick = () => {
-      if (opt === item.a) {
-        btn.className = "correct";
-        score++; stars++;
-      } else {
-        btn.className = "wrong";
-        const reason = document.createElement("div");
-        reason.className = "reason";
-        reason.innerText = "❌ " + item.r;
-        div.appendChild(reason);
-      }
-      updateScore();
-    };
-    div.appendChild(btn);
-  });
-  document.getElementById("quiz").appendChild(div);
-});
+function checkScore() {
+    const scoreEl = document.getElementById('score');
+    scoreEl.textContent = `Score: ${score}`;
+    scoreEl.classList.remove('hidden');
+    if(score === 70) {
+        launchConfetti();
+    }
+}
 
-// FILL IN THE BLANKS
-const fillData = [
-  {q:"I ___ happy.", a:"am", o:["am","is","are"], r:"Use 'am' with I."},
-  {q:"My name ___ Tom.", a:"is", o:["is","am","are"], r:"Name uses 'is'."},
-  {q:"She ___ fine.", a:"is", o:["is","am","are"], r:"She = is."},
-  {q:"Hello, my ___ is Tom.", a:"name", o:["age","food","name"], r:"You introduce your name."},
-  {q:"How ___ you?", a:"are", o:["is","am","are"], r:"You say 'How are you?'."}
-];
+function launchConfetti() {
+    const confettiContainer = document.getElementById('confetti');
+    for(let i=0;i<100;i++){
+        let piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random()*100 + 'vw';
+        piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        confettiContainer.appendChild(piece);
+    }
+    setTimeout(()=>{confettiContainer.innerHTML='';},3000);
+}
 
-fillData.forEach(item => {
-  const div = document.createElement("div");
-  div.innerHTML = `<p>${item.q}</p>`;
-  item.o.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.innerText = opt;
-    btn.onclick = () => {
-      if (opt === item.a) {
-        btn.className = "correct";
-        score++; stars++;
-      } else {
-        btn.className = "wrong";
-        const reason = document.createElement("div");
-        reason.className = "reason";
-        reason.innerText = "❌ " + item.r;
-        div.appendChild(reason);
-      }
-      updateScore();
-    };
-    div.appendChild(btn);
-  });
-  document.getElementById("fill").appendChild(div);
-});
-
-// VOCABULARY
-const vocabData = [
-  {w:"Hello", m:"A greeting", o:["A food","A greeting","A color"]},
-  {w:"Hi", m:"A greeting", o:["A greeting","A place","A toy"]},
-  {w:"Name", m:"What you are called", o:["Age","Food","What you are called"]},
-  {w:"How are you?", m:"Asking about feelings", o:["Greeting","Asking about feelings","Saying goodbye"]}
-];
-
-vocabData.forEach(item => {
-  const div = document.createElement("div");
-  div.innerHTML = `<p>${item.w}
-  <button onclick="playAudio('${item.w.replace(/ /g,'')}')">🔊</button></p>`;
-  item.o.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.innerText = opt;
-    btn.onclick = () => {
-      if (opt === item.m) {
-        btn.className = "correct";
-        score++; stars++;
-      } else {
-        btn.className = "wrong";
-        const reason = document.createElement("div");
-        reason.className = "reason";
-        reason.innerText = "❌ The correct meaning is: " + item.m;
-        div.appendChild(reason);
-      }
-      updateScore();
-    };
-    div.appendChild(btn);
-  });
-  document.getElementById("vocab").appendChild(div);
-});
-
-function showResult() {
-  let badge = "";
-  if (score >= 20) badge = "🏆 Gold Speaker";
-  else if (score >= 14) badge = "🥈 Silver Speaker";
-  else badge = "🥉 Keep Practicing";
-
-  alert(`Final Score: ${score}\nStars: ${stars}\nBadge: ${badge}`);
+function checkFillBlanks() {
+    const answers = ['Nice','are','are','name','forward'];
+    let userAnswers = [
+        document.getElementById('blank1').value.trim(),
+        document.getElementById('blank2').value.trim(),
+        document.getElementById('blank3').value.trim(),
+        document.getElementById('blank4').value.trim(),
+        document.getElementById('blank5').value.trim()
+    ];
+    let fillScore = 0;
+    for(let i=0;i<answers.length;i++){
+        if(userAnswers[i].toLowerCase() === answers[i].toLowerCase()){
+            fillScore += 10;
+        }
+    }
+    score += fillScore;
+    checkScore();
+    alert(`You scored ${fillScore}/50 on fill in the blanks!`);
 }
 </script>
 
