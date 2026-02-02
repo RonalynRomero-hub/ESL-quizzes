@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>15-Week ESL Interactive Class</title>
+<style>
+body {font-family: Arial, sans-serif;margin: 20px;background: linear-gradient(135deg, #c2e9fb, #fcb69f);}
+.quiz-section { margin-bottom: 30px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+button { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
+.choice { display: block; margin: 5px 0; padding: 5px; border-radius: 5px; border: 1px solid #ccc; cursor: pointer; }
+.correct { background-color: #a8e6a2; border-color: #3a923a; }
+.wrong { background-color: #f08080; border-color: #a10000; }
+.reason { font-style: italic; color: #555; margin-top: 5px; }
+.hidden { display: none; }
+#scoreContainer { font-size: 20px; font-weight: bold; color: #e76f51; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>15-Week ESL Interactive Class</h1>
+
+<label for="weekSelect">Select Week:</label>
+<select id="weekSelect" onchange="loadWeek()">
+  <option value="1">Week 1 - Greetings</option>
+  <option value="2">Week 2 - Family</option>
+  <option value="3">Week 3 - School</option>
+  <!-- Add more weeks -->
+</select>
+
+<div id="quizContainer"></div>
+<div id="scoreContainer"></div>
+
+<script>
+// Sample data for Week 1
+const weeksData = {
+  1: {
+    summaryQuestions: [
+      {q: "Who says hello to his friends?", choices: ["Tom", "Anna", "Jack"], answer: "Tom", reason: "Tom is the character greeting his friends in the summary."},
+      {q: "What does he like to do?", choices: ["Sleep", "Meet new people", "Eat pizza"], answer: "Meet new people", reason: "The summary says he likes to meet new people."},
+      {q: "How does he feel?", choices: ["Happy", "Sad", "Tired"], answer: "Happy", reason: "The summary mentions he is happy."},
+      {q: "Who is he greeting?", choices: ["His family", "His friends", "His teacher"], answer: "His friends", reason: "He says hello to his friends."},
+      {q: "What does he ask?", choices: ["How are you?", "What is your name?", "Where is school?"], answer: "How are you?", reason: "The summary says he asks how everyone is today."},
+      {q: "Where is this happening?", choices: ["School", "Playground", "Home"], answer: "Playground", reason: "The scene describes him greeting friends outside."},
+      {q: "What is the main theme?", choices: ["Greetings", "Food", "Animals"], answer: "Greetings", reason: "The summary is about saying hello and introducing oneself."}
+    ],
+    grammarQuestions: [
+      {q: "Hello, my name ___ Tom.", choices: ["is", "are", "am"], answer: "is", reason: "We use 'is' with he/she/it."},
+      {q: "How ___ you today?", choices: ["is", "are", "am"], answer: "are", reason: "'You' uses 'are'."},
+      {q: "I ___ happy.", choices: ["am", "is", "are"], answer: "am", reason: "'I' uses 'am'."},
+      {q: "She ___ fine.", choices: ["is", "are", "am"], answer: "is", reason: "'She' uses 'is'."},
+      {q: "They ___ friends.", choices: ["are", "is", "am"], answer: "are", reason: "'They' uses 'are'."}
+    ],
+    vocabQuestions: [
+      {q: "What does 'Hello' mean?", choices: ["Goodbye", "Hi / Greeting", "Friend", "Name"], answer: "Hi / Greeting", reason: "'Hello' is a greeting."},
+      {q: "What does 'My name is' mean?", choices: ["I like", "This is me", "Introducing myself", "Saying goodbye"], answer: "Introducing myself", reason: "It is used to tell your name."},
+      {q: "What does 'How are you?' mean?", choices: ["Asking health or mood", "Saying bye", "Singing", "Eating"], answer: "Asking health or mood", reason: "It is used to ask how someone is feeling."},
+      {q: "What does 'Hi' mean?", choices: ["Hi / Greeting", "Goodnight", "Yes", "Friend"], answer: "Hi / Greeting", reason: "Hi is a casual greeting."}
+    ]
+  }
+};
+
+let totalCorrect = 0;
+let totalQuestions = 0;
+
+function createChoices(container, qData){
+  qData.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.innerText = choice;
+    btn.className = "choice";
+    btn.onclick = () => {
+      if(!btn.classList.contains("answered")){
+        totalQuestions++;
+        if(choice === qData.answer){
+          btn.classList.add("correct");
+          totalCorrect++;
+        } else {
+          btn.classList.add("wrong");
+          container.querySelectorAll("button").forEach(b => {
+            if(b.innerText === qData.answer) b.classList.add("correct");
+          });
+          const reasonEl = document.createElement("div");
+          reasonEl.className = "reason";
+          reasonEl.innerText = qData.reason;
+          container.appendChild(reasonEl);
+        }
+        container.querySelectorAll("button").forEach(b => { b.disabled = true; b.classList.add("answered"); });
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+function loadSection(title, questions){
+  const container = document.getElementById("quizContainer");
+  const sectionDiv = document.createElement("div");
+  sectionDiv.className = "quiz-section";
+  const h2 = document.createElement("h2");
+  h2.innerText = title;
+  sectionDiv.appendChild(h2);
+
+  questions.forEach(qData => {
+    const qDiv = document.createElement("div");
+    const qP = document.createElement("p");
+    qP.innerText = qData.q;
+    qDiv.appendChild(qP);
+    createChoices(qDiv, qData);
+    sectionDiv.appendChild(qDiv);
+  });
+
+  container.appendChild(sectionDiv);
+}
+
+function loadWeek(){
+  const week = document.getElementById("weekSelect").value;
+  const container = document.getElementById("quizContainer");
+  const scoreDiv = document.getElementById("scoreContainer");
+  container.innerHTML = "";
+  scoreDiv.innerHTML = "";
+  totalCorrect = 0;
+  totalQuestions = 0;
+
+  const data = weeksData[week];
+  loadSection("Summary Quiz (Multiple Choice)", data.summaryQuestions);
+  loadSection("Grammar Drill (Fill in the Blank)", data.grammarQuestions);
+  loadSection("Vocabulary (Meaning)", data.vocabQuestions);
+
+  const showScoreBtn = document.createElement("button");
+  showScoreBtn.innerText = "Show Total Score";
+  showScoreBtn.onclick = () => {
+    scoreDiv.innerText = `You got ${totalCorrect} out of ${totalQuestions} correct!`;
+  };
+  container.appendChild(showScoreBtn);
+}
+
+loadWeek();
+</script>
+
+</body>
+</html>
