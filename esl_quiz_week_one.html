@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SpeakQuest ESL – Week 1</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(#cce7ff, #ffffff);
+  text-align: center;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 700px;
+  margin: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.correct {
+  background-color: #7CFC98;
+}
+
+.wrong {
+  background-color: #FF7C7C;
+}
+
+#stars, #score {
+  font-size: 20px;
+  margin: 10px;
+}
+
+.reason {
+  color: #555;
+  margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>🌟 SpeakQuest ESL</h1>
+<h2>Week 1: Greetings & Introductions</h2>
+
+<p><b>Story Summary:</b><br>
+Tom is a new student at school. He smiles and says hello to his classmates.
+Tom tells them his name and asks how they are. He feels happy because everyone is friendly.
+</p>
+
+<div id="stars">⭐ Stars: 0</div>
+<div id="score">Score: 0</div>
+
+<hr>
+
+<h3>📝 Multiple Choice (7 Questions)</h3>
+<div id="quiz"></div>
+
+<hr>
+
+<h3>✏️ Fill in the Blanks (5 Questions)</h3>
+<div id="fill"></div>
+
+<hr>
+
+<h3>📖 Vocabulary</h3>
+<div id="vocab"></div>
+
+<hr>
+
+<button onclick="showResult()">🎉 Finish Game</button>
+</div>
+
+<script>
+let score = 0;
+let stars = 0;
+
+function updateScore() {
+  document.getElementById("score").innerText = "Score: " + score;
+  document.getElementById("stars").innerText = "⭐ Stars: " + stars;
+}
+
+function playAudio(word) {
+  const audio = new Audio("audio/" + word + ".mp3");
+  audio.play();
+}
+
+// MULTIPLE CHOICE
+const quizData = [
+  {q:"What does Tom say first?", a:"Hello", o:["Bye","Hello","Thanks"], r:"Tom greets his friends politely."},
+  {q:"Who is Tom?", a:"A new student", o:["A teacher","A new student","A doctor"], r:"The story says Tom is new at school."},
+  {q:"What does Tom tell?", a:"His name", o:["His age","His name","His food"], r:"Tom introduces himself."},
+  {q:"What does Tom ask?", a:"How are you?", o:["Where are you?","How are you?","What is this?"], r:"He asks about feelings."},
+  {q:"How does Tom feel?", a:"Happy", o:["Sad","Angry","Happy"], r:"Everyone is friendly to him."},
+  {q:"Where is Tom?", a:"School", o:["Park","Home","School"], r:"The story happens at school."},
+  {q:"Are his classmates friendly?", a:"Yes", o:["No","Yes","Maybe"], r:"They respond kindly."}
+];
+
+quizData.forEach((item, i) => {
+  const div = document.createElement("div");
+  div.innerHTML = `<p>${item.q}</p>`;
+  item.o.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => {
+      if (opt === item.a) {
+        btn.className = "correct";
+        score++; stars++;
+      } else {
+        btn.className = "wrong";
+        const reason = document.createElement("div");
+        reason.className = "reason";
+        reason.innerText = "❌ " + item.r;
+        div.appendChild(reason);
+      }
+      updateScore();
+    };
+    div.appendChild(btn);
+  });
+  document.getElementById("quiz").appendChild(div);
+});
+
+// FILL IN THE BLANKS
+const fillData = [
+  {q:"I ___ happy.", a:"am", o:["am","is","are"], r:"Use 'am' with I."},
+  {q:"My name ___ Tom.", a:"is", o:["is","am","are"], r:"Name uses 'is'."},
+  {q:"She ___ fine.", a:"is", o:["is","am","are"], r:"She = is."},
+  {q:"Hello, my ___ is Tom.", a:"name", o:["age","food","name"], r:"You introduce your name."},
+  {q:"How ___ you?", a:"are", o:["is","am","are"], r:"You say 'How are you?'."}
+];
+
+fillData.forEach(item => {
+  const div = document.createElement("div");
+  div.innerHTML = `<p>${item.q}</p>`;
+  item.o.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => {
+      if (opt === item.a) {
+        btn.className = "correct";
+        score++; stars++;
+      } else {
+        btn.className = "wrong";
+        const reason = document.createElement("div");
+        reason.className = "reason";
+        reason.innerText = "❌ " + item.r;
+        div.appendChild(reason);
+      }
+      updateScore();
+    };
+    div.appendChild(btn);
+  });
+  document.getElementById("fill").appendChild(div);
+});
+
+// VOCABULARY
+const vocabData = [
+  {w:"Hello", m:"A greeting", o:["A food","A greeting","A color"]},
+  {w:"Hi", m:"A greeting", o:["A greeting","A place","A toy"]},
+  {w:"Name", m:"What you are called", o:["Age","Food","What you are called"]},
+  {w:"How are you?", m:"Asking about feelings", o:["Greeting","Asking about feelings","Saying goodbye"]}
+];
+
+vocabData.forEach(item => {
+  const div = document.createElement("div");
+  div.innerHTML = `<p>${item.w}
+  <button onclick="playAudio('${item.w.replace(/ /g,'')}')">🔊</button></p>`;
+  item.o.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => {
+      if (opt === item.m) {
+        btn.className = "correct";
+        score++; stars++;
+      } else {
+        btn.className = "wrong";
+        const reason = document.createElement("div");
+        reason.className = "reason";
+        reason.innerText = "❌ The correct meaning is: " + item.m;
+        div.appendChild(reason);
+      }
+      updateScore();
+    };
+    div.appendChild(btn);
+  });
+  document.getElementById("vocab").appendChild(div);
+});
+
+function showResult() {
+  let badge = "";
+  if (score >= 20) badge = "🏆 Gold Speaker";
+  else if (score >= 14) badge = "🥈 Silver Speaker";
+  else badge = "🥉 Keep Practicing";
+
+  alert(`Final Score: ${score}\nStars: ${stars}\nBadge: ${badge}`);
+}
+</script>
+
+</body>
+</html>
