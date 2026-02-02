@@ -8,25 +8,25 @@
     body {
         margin: 0;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        background: #6a0dad url('https://i.ibb.co/6r3rV7T/books-paperplane.png') repeat; /* books and paper plane design */
-        color: #fff;
+        background: linear-gradient(135deg, #c8a2ff, #a0e7ff); /* light purple to light blue */
+        color: #333;
         overflow-x: hidden;
     }
 
     .container {
         max-width: 500px;
-        margin: 0 auto;
+        margin: 20px auto;
         padding: 20px;
         text-align: center;
-        background: rgba(0,0,0,0.3);
+        background: rgba(255,255,255,0.7);
         border-radius: 20px;
-        box-shadow: 0 0 20px #000;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
     }
 
     h1, h2 {
         margin-bottom: 15px;
-        color: #fff;
-        text-shadow: 2px 2px #000;
+        color: #4b0082;
+        text-shadow: 1px 1px #ccc;
     }
 
     p {
@@ -57,8 +57,8 @@
         font-size: 24px;
         margin: 20px 0;
         font-weight: bold;
-        color: #ffea00;
-        text-shadow: 2px 2px #000;
+        color: #ff6600;
+        text-shadow: 1px 1px #ccc;
     }
 
     .confetti {
@@ -88,7 +88,7 @@
     input {
         padding: 10px;
         border-radius: 8px;
-        border: none;
+        border: 1px solid #999;
         font-size: 16px;
         margin: 5px 0;
     }
@@ -96,6 +96,7 @@
     .vocab {
         margin: 15px 0;
         font-weight: bold;
+        color: #4b0082;
     }
 </style>
 </head>
@@ -104,7 +105,6 @@
 <div class="container">
     <h1>Tom's School Adventure</h1>
     <p id="story">Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p>
-    <button onclick="playAudio()">🔊 Listen to Story</button>
 
     <div id="quiz" class="hidden">
         <h2>Multiple Choice Questions</h2>
@@ -169,15 +169,8 @@
 
 <div class="confetti" id="confetti"></div>
 
-<audio id="audioStory" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-
 <script>
 let score = 0;
-
-function playAudio() {
-    const audio = document.getElementById('audioStory');
-    audio.play();
-}
 
 function startQuiz() {
     document.getElementById('quiz').classList.remove('hidden');
@@ -189,7 +182,7 @@ function checkAnswer(button, result) {
         score += 10;
         button.style.background = '#00ff00';
     } else {
-        button.style.background = '#ff0000';
+        button.style.background = '#ff6666';
     }
     button.disabled = true;
     checkScore();
@@ -210,7 +203,7 @@ function launchConfetti() {
         let piece = document.createElement('div');
         piece.className = 'confetti-piece';
         piece.style.left = Math.random()*100 + 'vw';
-        piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
         confettiContainer.appendChild(piece);
     }
     setTimeout(()=>{confettiContainer.innerHTML='';},3000);
@@ -219,23 +212,4 @@ function launchConfetti() {
 function checkFillBlanks() {
     const answers = ['Nice','are','are','name','forward'];
     let userAnswers = [
-        document.getElementById('blank1').value.trim(),
-        document.getElementById('blank2').value.trim(),
-        document.getElementById('blank3').value.trim(),
-        document.getElementById('blank4').value.trim(),
-        document.getElementById('blank5').value.trim()
-    ];
-    let fillScore = 0;
-    for(let i=0;i<answers.length;i++){
-        if(userAnswers[i].toLowerCase() === answers[i].toLowerCase()){
-            fillScore += 10;
-        }
-    }
-    score += fillScore;
-    checkScore();
-    alert(`You scored ${fillScore}/50 on fill in the blanks!`);
-}
-</script>
-
-</body>
-</html>
+        document.getElementB
