@@ -8,8 +8,8 @@
     body {
         margin: 0;
         font-family: 'Comic Sans MS', cursive, sans-serif;
-        background: linear-gradient(135deg, #c8a2ff, #a0e7ff); /* light purple to light blue */
-        color: #333;
+        background: linear-gradient(135deg, #7ab4ff, #040405); /* light blue to dark */
+        color: #fff;
         overflow-x: hidden;
     }
 
@@ -18,15 +18,15 @@
         margin: 20px auto;
         padding: 20px;
         text-align: center;
-        background: rgba(255,255,255,0.7);
+        background: rgba(0, 0, 0, 0.7);
         border-radius: 20px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
 
     h1, h2 {
         margin-bottom: 15px;
-        color: #7ab4ff;
-        text-shadow: 1px 1px #ccc;
+        color: #ffeb3b;
+        text-shadow: 1px 1px #000;
     }
 
     p {
@@ -36,7 +36,7 @@
     }
 
     button {
-        background: #040405;
+        background: #ffcc00;
         border: none;
         padding: 15px 25px;
         margin: 10px;
@@ -57,8 +57,8 @@
         font-size: 24px;
         margin: 20px 0;
         font-weight: bold;
-        color: #ff6600;
-        text-shadow: 1px 1px #ccc;
+        color: #00ff00;
+        text-shadow: 1px 1px #000;
     }
 
     .confetti {
@@ -88,7 +88,7 @@
     input {
         padding: 10px;
         border-radius: 8px;
-        border: 1px solid #999;
+        border: 1px solid #ccc;
         font-size: 16px;
         margin: 5px 0;
     }
@@ -96,7 +96,7 @@
     .vocab {
         margin: 15px 0;
         font-weight: bold;
-        color: #4b0082;
+        color: #ffeb3b;
     }
 </style>
 </head>
@@ -212,4 +212,23 @@ function launchConfetti() {
 function checkFillBlanks() {
     const answers = ['Nice','are','are','name','forward'];
     let userAnswers = [
-        document.getElementB
+        document.getElementById('blank1').value.trim(),
+        document.getElementById('blank2').value.trim(),
+        document.getElementById('blank3').value.trim(),
+        document.getElementById('blank4').value.trim(),
+        document.getElementById('blank5').value.trim()
+    ];
+    let fillScore = 0;
+    for(let i=0;i<answers.length;i++){
+        if(userAnswers[i].toLowerCase() === answers[i].toLowerCase()){
+            fillScore += 10;
+        }
+    }
+    score += fillScore;
+    checkScore();
+    alert(`You scored ${fillScore}/50 on fill in the blanks!`);
+}
+</script>
+
+</body>
+</html>
