@@ -151,4 +151,134 @@
         <p>2. Everyone ___ friendly at school.</p>
         <button onclick="checkFillOption(this, 'correct', 'are')">are</button>
         <button onclick="checkFillOption(this, 'wrong', 'is')">is</button>
-        <button onclick="checkFillOption(this, 'wrong', 'was')
+        <button onclick="checkFillOption(this, 'wrong', 'was')">was</button>
+
+        <p>3. How ___ you doing today?</p>
+        <button onclick="checkFillOption(this, 'correct', 'are')">are</button>
+        <button onclick="checkFillOption(this, 'wrong', 'is')">is</button>
+        <button onclick="checkFillOption(this, 'wrong', 'do')">do</button>
+
+        <p>4. Hello, my ___ is Tom.</p>
+        <button onclick="checkFillOption(this, 'correct', 'name')">name</button>
+        <button onclick="checkFillOption(this, 'wrong', 'friend')">friend</button>
+        <button onclick="checkFillOption(this, 'wrong', 'teacher')">teacher</button>
+
+        <p>5. I am looking ___ seeing you tomorrow!</p>
+        <button onclick="checkFillOption(this, 'correct', 'forward')">forward</button>
+        <button onclick="checkFillOption(this, 'wrong', 'backward')">backward</button>
+        <button onclick="checkFillOption(this, 'wrong', 'around')">around</button>
+
+        <h2>Vocabulary Quiz</h2>
+
+        <p>1. greet</p>
+        <button onclick="checkVocabOption(this, 'correct', 'say hello')">say hello</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'ignore')">ignore</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'run away')">run away</button>
+
+        <p>2. kind</p>
+        <button onclick="checkVocabOption(this, 'correct', 'friendly')">friendly</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'mean')">mean</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'angry')">angry</button>
+
+        <p>3. notice</p>
+        <button onclick="checkVocabOption(this, 'correct', 'see or observe')">see or observe</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'ignore')">ignore</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'hide')">hide</button>
+
+        <p>4. joining</p>
+        <button onclick="checkVocabOption(this, 'correct', 'participating')">participating</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'leaving')">leaving</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'ignoring')">ignoring</button>
+
+        <p>5. How are you doing?</p>
+        <button onclick="checkVocabOption(this, 'correct', 'asking how someone is')">asking how someone is</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'saying goodbye')">saying goodbye</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'telling a story')">telling a story</button>
+
+        <p>6. My name is...</p>
+        <button onclick="checkVocabOption(this, 'correct', 'introducing yourself')">introducing yourself</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'asking questions')">asking questions</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'ignoring people')">ignoring people</button>
+
+        <p>7. I am 12 years old.</p>
+        <button onclick="checkVocabOption(this, 'correct', 'telling your age')">telling your age</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'telling your name')">telling your name</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'asking someone their age')">asking someone their age</button>
+
+        <p>8. I live in Sydney.</p>
+        <button onclick="checkVocabOption(this, 'correct', 'telling where you live')">telling where you live</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'telling your age')">telling your age</button>
+        <button onclick="checkVocabOption(this, 'wrong', 'asking someone where they live')">asking someone where they live</button>
+
+        <div id="score" class="score hidden"></div>
+    </div>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+let score = 0;
+
+// Multiple choice answers
+function checkAnswer(button, result) {
+    if(result === 'correct') {
+        score += 10;
+        button.style.background = '#00ff00';
+    } else {
+        button.style.background = '#ff0000';
+    }
+    button.disabled = true;
+    checkScore();
+}
+
+// Fill-in-the-blanks options
+function checkFillOption(button, result, value) {
+    if(result === 'correct') {
+        score += 10;
+        button.style.background = '#00ff00';
+    } else {
+        button.style.background = '#ff0000';
+    }
+    button.disabled = true;
+    checkScore();
+}
+
+// Vocabulary options
+function checkVocabOption(button, result, value) {
+    if(result === 'correct') {
+        score += 10;
+        button.style.background = '#00ff00';
+    } else {
+        button.style.background = '#ff0000';
+    }
+    button.disabled = true;
+    checkScore();
+}
+
+// Score display and confetti
+function checkScore() {
+    const scoreEl = document.getElementById('score');
+    scoreEl.textContent = `Score: ${score}`;
+    scoreEl.classList.remove('hidden');
+    if(score >= 200) { // max total score reached
+        launchConfetti();
+    }
+}
+
+// Confetti scattered
+function launchConfetti() {
+    const confettiContainer = document.getElementById('confetti');
+    for(let i=0;i<100;i++){
+        let piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random()*100 + 'vw';
+        piece.style.top = Math.random()*100 + 'vh';
+        piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
+        confettiContainer.appendChild(piece);
+    }
+    setTimeout(()=>{confettiContainer.innerHTML='';},3000);
+}
+</script>
+
+</body>
+</html>
