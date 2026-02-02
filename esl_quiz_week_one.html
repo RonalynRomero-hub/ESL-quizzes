@@ -13,18 +13,17 @@ body {
 }
 
 .container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0,0,0,0.7);
     border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 h1, h2 {
     color: #f5e349;
     text-shadow: 1px 1px #000;
+    text-align: center;
 }
 
 p {
@@ -35,7 +34,7 @@ p {
 button {
     background: #f5e349;
     border: none;
-    padding: 12px 20px;
+    padding: 10px 18px;
     margin: 5px;
     font-size: 16px;
     font-weight: bold;
@@ -55,7 +54,7 @@ button:disabled {
 }
 
 .explanation {
-    margin-top: 15px;
+    margin: 5px 0 15px 0;
     font-style: italic;
     color: #ffcc00;
 }
@@ -66,6 +65,7 @@ button:disabled {
     font-weight: bold;
     color: #00ff00;
     text-shadow: 1px 1px #000;
+    text-align: center;
 }
 
 .confetti {
@@ -89,10 +89,10 @@ button:disabled {
 
 @keyframes scatter {
     0% { transform: translate(0,0) rotate(0deg);}
-    25% { transform: translate(50px, 50px) rotate(90deg);}
-    50% { transform: translate(-50px, 100px) rotate(180deg);}
-    75% { transform: translate(50px, 150px) rotate(270deg);}
-    100% { transform: translate(0, 200px) rotate(360deg);}
+    25% { transform: translate(50px,50px) rotate(90deg);}
+    50% { transform: translate(-50px,100px) rotate(180deg);}
+    75% { transform: translate(50px,150px) rotate(270deg);}
+    100% { transform: translate(0,200px) rotate(360deg);}
 }
 </style>
 </head>
@@ -100,18 +100,19 @@ button:disabled {
 
 <div class="container">
 <h1>Tom's School Adventure</h1>
-<p id="story">Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p>
+<p>Tom is a new student at school. He smiles warmly and greets his classmates, introducing himself and asking how they are. Everyone responds kindly, which makes him feel welcome and happy. As he walks to his seat, he notices a few students waving at him and offering to help him with his things. He feels a sense of relief knowing that making friends here might be easier than he expected. By the end of the morning, Tom is already looking forward to joining class activities and meeting more of his classmates.</p>
 
 <div id="quiz"></div>
-<p id="explanation" class="explanation"></p>
-<div id="score" class="score hidden"></div>
+<div id="score" class="score">Score: 0</div>
 </div>
 
 <div class="confetti" id="confetti"></div>
 
 <script>
-// Questions array
+let score = 0;
+
 const questions = [
+    // Multiple Choice
     {type:'mcq', question:'Who is Tom?', options:['A new student','His teacher','His friend'], answer:0, explanation:'Tom is a new student in school.'},
     {type:'mcq', question:'What does Tom do?', options:['Greets his classmates','Runs away','Sleeps in class'], answer:0, explanation:'He greets his classmates warmly.'},
     {type:'mcq', question:'Why does Tom feel happy?', options:['Because everyone is kind','Because he is alone','Because school is closed'], answer:0, explanation:'Everyone responds kindly to him.'},
@@ -120,12 +121,14 @@ const questions = [
     {type:'mcq', question:'How does he feel about making friends in class?', options:['Relieved','Angry','Sad'], answer:0, explanation:'He feels relieved about making friends.'},
     {type:'mcq', question:'What does Tom look forward to?', options:['Joining class activities and meeting more classmates','Going home','Eating lunch alone'], answer:0, explanation:'He looks forward to joining class activities and meeting more classmates.'},
 
+    // Fill in the Blanks
     {type:'fill', question:'___ to meet you!', options:['Nice','Hello','Good'], answer:0, explanation:'The correct phrase is "Nice to meet you!"'},
     {type:'fill', question:'Everyone ___ friendly at school.', options:['are','is','was'], answer:0, explanation:'Everyone "are" friendly.'},
     {type:'fill', question:'How ___ you doing today?', options:['are','is','do'], answer:0, explanation:'The correct form is "How are you doing today?"'},
     {type:'fill', question:'Hello, my ___ is Tom.', options:['name','friend','teacher'], answer:0, explanation:'The correct answer is "name".'},
     {type:'fill', question:'I am looking ___ seeing you tomorrow!', options:['forward','backward','around'], answer:0, explanation:'The correct phrase is "looking forward to seeing you".'},
 
+    // Vocabulary
     {type:'vocab', question:'greet', options:['say hello','ignore','run away'], answer:0, explanation:'To "greet" means to say hello.'},
     {type:'vocab', question:'kind', options:['friendly','mean','angry'], answer:0, explanation:'Kind means friendly.'},
     {type:'vocab', question:'notice', options:['see or observe','ignore','hide'], answer:0, explanation:'To notice something means to see or observe it.'},
@@ -136,58 +139,58 @@ const questions = [
     {type:'vocab', question:'I live in Sydney', options:['telling where you live','telling your age','asking someone where they live'], answer:0, explanation:'It tells where you live.'},
 ];
 
-let current = 0;
-let score = 0;
+const quizDiv = document.getElementById('quiz');
 
-function showQuestion() {
-    const quiz = document.getElementById('quiz');
-    const explanation = document.getElementById('explanation');
-    explanation.innerHTML = '';
-    if(current >= questions.length){
-        quiz.innerHTML = `<h2>Quiz Completed!</h2><p>Your Score: ${score}</p>`;
-        launchConfetti();
-        return;
-    }
-    const q = questions[current];
-    let html = `<p>${q.question}</p>`;
+questions.forEach((q, index) => {
+    const div = document.createElement('div');
+    div.id = 'q' + index;
+    div.innerHTML = `<h2>${q.question}</h2>`;
     q.options.forEach((opt,i)=>{
-        html += `<button onclick="selectOption(${i})">${opt}</button>`;
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = function(){
+            if(btn.disabled) return;
+            if(i === q.answer){
+                btn.style.background = '#00ff00';
+                score += 10;
+                updateScore();
+            } else{
+                btn.style.background = '#ff0000';
+                const expl = div.querySelector('.explanation');
+                expl.innerText = q.explanation;
+            }
+            // disable all buttons of this question
+            const allBtns = div.querySelectorAll('button');
+            allBtns.forEach(b=>b.disabled=true);
+        };
+        div.appendChild(btn);
     });
-    quiz.innerHTML = html;
-}
+    const exp = document.createElement('p');
+    exp.className = 'explanation';
+    div.appendChild(exp);
+    quizDiv.appendChild(div);
+});
 
-function selectOption(i){
-    const q = questions[current];
-    const buttons = document.querySelectorAll('#quiz button');
-    // disable all buttons after one click
-    buttons.forEach(btn=>btn.disabled=true);
-
-    if(i === q.answer){
-        buttons[i].style.background = '#00ff00';
-        score += 10;
-        current++;
-        setTimeout(showQuestion, 800);
-    }else{
-        buttons[i].style.background = '#ff0000';
-        document.getElementById('explanation').innerText = q.explanation;
+function updateScore(){
+    const scoreDiv = document.getElementById('score');
+    scoreDiv.innerText = 'Score: '+score;
+    if(score === questions.length*10){
+        launchConfetti();
     }
 }
 
-function launchConfetti() {
+function launchConfetti(){
     const confettiContainer = document.getElementById('confetti');
     for(let i=0;i<100;i++){
         let piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = Math.random()*100 + 'vw';
-        piece.style.top = Math.random()*100 + 'vh';
+        piece.className='confetti-piece';
+        piece.style.left = Math.random()*100+'vw';
+        piece.style.top = Math.random()*100+'vh';
         piece.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 70%)`;
         confettiContainer.appendChild(piece);
     }
     setTimeout(()=>{confettiContainer.innerHTML='';},3000);
 }
-
-// Start the quiz
-showQuestion();
 </script>
 
 </body>
